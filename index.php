@@ -1,6 +1,6 @@
-<?php 
-require_once 'db_config.php'; 
-require_once 'functions.php'; 
+<?php
+require_once 'db_conf.php';
+require_once 'functions.php';
 
 $submittedTime = null;
 
@@ -11,31 +11,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title data-i18n="title">Опитування: Напрямки в IT</title>
-    <script>
-        dict = { uk: {"title": "Опитування: Напрямки в IT",}, en: {"title": "IT Career Survey"} }
-    </script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Опитування: Напрямки в IT</title>
+
     <style>
-        body { font-family: sans-serif; max-width: 40rem; margin: 1.25rem auto; line-height: 1.6; }
+        * { box-sizing: border-box; }
+        body {
+            background-color: #222; font-family: 'Segoe UI', system-ui, sans-serif;
+            color: #AAA; margin: 0; line-height: 1.6;
+        }
+        .container { max-width: 30rem; margin: 1.25rem auto; padding: 0 1rem; }
+        .container form > * { display: block; width: 100%; }
     </style>
+    
 </head>
 <body>
-    <h2>Опитування: Напрямки в IT</h2>
-    
+    <h2 style="max-width: 30rem; margin: 1rem auto; padding: 0 1rem; text-align: left;">
+        Опитування: Напрямки в IT
+    </h2>
+
     <?php if ($submittedTime): ?>
-        <p style="color: green;">Відповідь збережено о: <?php echo $submittedTime; ?> ✓</p>
+        <p style="margin: 1rem auto; color: green;">Відповідь збережено о: <?php echo $submittedTime; ?> ✓</p>
     <?php endif; ?>
 
-    <form method="POST">
+    <form method="POST" class="container">
         <label>Ваше ім'я:</label><br>
         <input type="text" name="name" required><br><br>
 
         <label>Email:</label><br>
         <input type="email" name="email" required><br><br>
-        
+
         <label>1. Ваш вік:</label><br>
-        <input type="number" name="age" min="16" max="99" required><br>
+        <input type="number" name="age" min="16" max="130" required><br>
 
         <p>2. Який напрямок CS вам найбільш цікавий?</p>
         <select name="field">
@@ -46,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             <option value="NetworkingAndCloudEngineering">Networking & Cloud Engineering</option>
             <option value="Cybersecurity">Cybersecurity</option>
             <option value="AI/ML">AI & Machine Learning</option>
-            <option value="Other">Інше</option>
+            <option value="Other">Other</option>
         </select>
 
         <p>3. Чому ви обрали саме цей напрямок?</p>
