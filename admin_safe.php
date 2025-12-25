@@ -88,6 +88,7 @@ if (isset($_GET['export']) && isset($_SESSION['admin_logged_in'])) {
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.875rem;
+            min-width: max-content;
         }
         
         /* Кнопка Вийти */
@@ -187,7 +188,7 @@ if (isset($_GET['export']) && isset($_SESSION['admin_logged_in'])) {
         </div>
     <?php else: ?>
         <div class="admin-header">
-            <h1>Відповіді користувачів</h1>
+            <h1 style="padding: 0.5rem 1.25rem;">Відповіді користувачів</h1>
             <div>
                 <a href="?export=1" class="btn-export">Експорт у CSV</a>
                 <a href="logout.php" class="btn-logout">Вийти</a>
