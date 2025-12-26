@@ -1,6 +1,6 @@
 <?php
-require_once 'db_conf.php'; //
-require_once 'functions.php'; //
+require_once 'db_conf.php';
+require_once 'functions.php';
 
 $submittedTime = null;
 $error = null;
@@ -29,6 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $dir . '/' . $filename, 
                 json_encode($allUsers, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT)
             );
+
+            // Якщо запит надійшов від jQuery AJAX, виводимо результат і зупиняємо скрипт
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                echo "Відповідь збережено о: $submittedTime ✓";
+                exit;
+            }
         }
         
         else {
@@ -86,6 +92,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     </style>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            $('.container form').submit(function(e) {
+                e.preventDefault(); // Запобігаємо оновленню сторінки
+                
+                $.ajax({
+                    type: 'POST',
+                    url: 'index.php',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Виводимо повідомлення успішного відправлення та анулюємо заповнену форму
+                        $('#ajax-msg').text(response);
+                        $('.container form')[0].reset();
+                    },
+                    error: function() {
+                        $('#ajax-msg').css('color', 'red').text("Виникла помилка при відправці.");
+                    }
+                });
+            });
+        });
+    </script>
     
 </head>
 <body>
@@ -93,10 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         Опитування: Напрямки в IT
     </h2>
 
-    <?php if ($submittedTime): ?>
-        <p style="max-width: 30rem; margin: 1rem auto; padding: 0 1rem; color: green;"
-        >Відповідь збережено о: <?php echo $submittedTime; ?> ✓</p>
-    <?php endif; ?>
+    <div id="ajax-msg" style="max-width: 30rem; margin: 1rem auto; padding: 0 1rem; color: green; font-weight: bold;"></div>
 
     <form method="POST" class="container">
         <label>Ваше ім'я:</label><br>
