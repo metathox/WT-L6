@@ -4,6 +4,7 @@ require_once 'functions.php';
 
 $submittedTime = null;
 $error = null;
+$mark = "\xE2\x9C\x93";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $age = isset($_POST['age']) ? intval($_POST['age']) : 0;
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Якщо запит надійшов від jQuery AJAX, виводимо результат і зупиняємо скрипт
             if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                echo "Відповідь збережено о: $submittedTime ✓";
+                echo "Відповідь збережено о: $submittedTime $mark";
                 exit;
             }
         }
